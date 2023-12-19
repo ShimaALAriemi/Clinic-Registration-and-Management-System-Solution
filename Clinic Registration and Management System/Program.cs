@@ -124,6 +124,7 @@ namespace Clinic_Registration_and_Management_System
             {
                 Appointment_Day = AppointmentDay,
                 Appointment_Time = AppointmentTime,
+                Appointment_Status = "pending",
                 PatientID = Patient_ID,
                 SpecializationID = Specialization - 1
             };

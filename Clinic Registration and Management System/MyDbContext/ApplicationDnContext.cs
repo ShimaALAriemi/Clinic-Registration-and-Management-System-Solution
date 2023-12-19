@@ -15,7 +15,12 @@ namespace Clinic_Registration_and_Management_System.MyDbContext
              
             optionsBuilder.UseSqlServer("Data Source=DESKTOP-ISH7TNU;Initial Catalog=Clinic Registration;Integrated Security=True;");
         }
-
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    //modelBuilder.Entity<Appointment>()
+        //    //    .Property(w => w.Appointment_Status)
+        //    //    .HasDefaultValue("pending");
+        //}
         public  DbSet<Patient> Patients { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
