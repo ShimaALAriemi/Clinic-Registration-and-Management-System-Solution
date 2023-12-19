@@ -43,17 +43,17 @@ namespace Clinic_Registration_and_Management_System
                             "2.View and set Status of Appointments\n"
                             );
                         Console.Write("Enter Your choise:");
-                    } while (!int.TryParse(Console.ReadLine(), out userWanted) && userWanted == 1 || userWanted == 2  );
+                    } while (!int.TryParse(Console.ReadLine(), out userWanted) && (userWanted > 0 &&  userWanted < 3)  );
 
-                    if (userWant == 1) Just_View_Appointment(_db);
-                    if (userWant == 2) View_And_Set_Status_Appointment(_db);
+                    if (userWanted == 1) Just_View_Appointment(_db);
+                    if (userWanted == 2) View_And_Set_Status_Appointment(_db);
                 }
 
 
 
 
             }
-            Console.WriteLine("\nThank you for using the Minimalist Zoo Animal Management System!");
+            Console.WriteLine("\nThank you for using the Clinic Registration and Management System!");
 
 
         }
@@ -117,7 +117,7 @@ namespace Clinic_Registration_and_Management_System
             string AppointmentTime = Console.ReadLine();
 
             int Patient_ID = (from P in _db.Patients
-                              where P.FName == patient.FName
+                              where P.Email == patient.Email
                               select P.PatientID).FirstOrDefault();
 
             Appointment appointment = new Appointment()
@@ -126,7 +126,7 @@ namespace Clinic_Registration_and_Management_System
                 Appointment_Time = AppointmentTime,
                 Appointment_Status = "pending",
                 PatientID = Patient_ID,
-                SpecializationID = Specialization - 1
+                SpecializationID = Specialization 
             };
             //set The patient
             appointment.Patient = patient;
@@ -157,15 +157,11 @@ namespace Clinic_Registration_and_Management_System
                 Console.WriteLine(item?.Appointment_Time ?? "NA  ||  ");
                 Console.Write(item?.Appointment_Status + "  ||  " ?? "NA  ||  ");
                 Console.Write((item?.PatientID ?? 0) + "  || ");
-                Console.Write(item?.Patient.FName + "  ||  " ?? "NA  ||  ");
-                Console.Write(item?.Specialization.SpecializationName + "  ||  " ?? "NA  ||  ");
+                Console.Write(item?.Patient?.FName + "  ||  " ?? "NA  ||  ");
+                Console.Write(item?.Specialization?.SpecializationName + "  ||  " ?? "NA  ||  ");
                 Console.WriteLine();
 
-                Console.Write("Set the Status of the Appointment:( Approve, Reschedule, or Cancel )");
-                string status = Console.ReadLine();
-                item.Appointment_Status = status;
-                _db.Appointments.Update(item);
-                _db.SaveChanges();
+            
             }
         }
         public static void View_And_Set_Status_Appointment(ApplicationDnContext _db)
@@ -182,12 +178,25 @@ namespace Clinic_Registration_and_Management_System
                 Console.WriteLine(item?.Appointment_Time ?? "NA  ||  ");
                 Console.Write(item?.Appointment_Status + "  ||  " ?? "NA  ||  ");
                 Console.Write((item?.PatientID ?? 0) + "  || ");
-                Console.Write(item?.Patient.FName + "  ||  " ?? "NA  ||  ");
-                Console.Write(item?.Specialization.SpecializationName + "  ||  " ?? "NA  ||  ");
+                Console.Write(item?.Patient?.FName + "  ||  " ?? "NA  ||  ");
+                Console.Write(item?.Specialization?.SpecializationName + "  ||  " ?? "NA  ||  ");
                 Console.WriteLine();
 
                 Console.Write("Set the Status of the Appointment:( Approve, Reschedule, or Cancel )");
                 string status = Console.ReadLine();
+                if (status.ToLower() == "reschedule")
+                {
+                    Console.Write("Enter Day: Exp YYYY-MM-DD ");
+                    string AppointmentDay = Console.ReadLine();
+
+                    item.Appointment_Day = AppointmentDay;
+
+                    Console.Write("Enter Time: Exp HH:MI ");
+                    string AppointmentTime = Console.ReadLine();
+
+                    item.Appointment_Time = AppointmentTime;
+                    _db.SaveChanges();
+                }
                 item.Appointment_Status = status;
                 _db.Appointments.Update(item);
                 _db.SaveChanges();
