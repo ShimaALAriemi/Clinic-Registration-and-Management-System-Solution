@@ -153,7 +153,7 @@ namespace Clinic_Registration_and_Management_System
             foreach (var item in Apo)
             {
                 Console.Write((item?.AppointmentID ?? 0) + "  || ");
-                Console.Write(item?.Appointment_Day + "  ||  " ?? "NA  ||  ");
+                Console.Write(item?.Appointment_Day+ "  ||  " ?? "NA  ||  ");
                 Console.WriteLine(item?.Appointment_Time ?? "NA  ||  ");
                 Console.Write(item?.Appointment_Status + "  ||  " ?? "NA  ||  ");
                 Console.Write((item?.PatientID ?? 0) + "  || ");
